@@ -1,22 +1,35 @@
 import java.util.Arrays;
 
 public class Field {
-    private final int rows = 4;
-    private final int cols = 4;
-    private final char[][] grid = new char[rows][cols];
+    private final int rows;
+    private final int cols;
+    private final char[][] grid;
 
-    public Field() {
-        for (int i = 0; i < 4; i++) {
+    public Field(int rows, int cols) {
+        this.rows = rows;
+        this.cols = cols;
+        this.grid = new char[rows][cols];
+        for (int i = 0; i < rows; i++) {
             Arrays.fill(grid[i], '-');
         }
     }
 
     public void place(Piece piece) {
         for (int index : piece.getShape()) {
-            int row = index / cols;
-            int col = index % cols;
-            if (row < grid.length && col < grid[0].length) {
-                grid[row][col] = '0';
+            int pieceRow = index / cols;
+            int pieceCol = index % cols;
+            if (pieceRow < grid.length && pieceCol < grid[0].length) {
+                grid[pieceRow][pieceCol] = '0';
+            }
+        }
+    }
+
+    public void move(Piece piece) {
+        for (int index : piece.getState()) {
+            int pieceRow = index / cols;
+            int pieceCol = index % cols;
+            if (pieceRow < grid.length && pieceCol < grid[0].length) {
+                grid[pieceRow][pieceCol] = '0';
             }
         }
     }
@@ -31,7 +44,7 @@ public class Field {
     }
 
     public void clear() {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < rows; i++) {
             Arrays.fill(grid[i], '-');
         }
     }

@@ -1,83 +1,107 @@
-# Tetris – Stage 1: Getting Started
+# Tetris – Stage 2: I Like to Move It!
 
 ---
 
 ## 🧠 Description
 
-The original Tetris game has 7 unique pieces, each made up of 4 segments: the `T` piece, the `O` piece, the `L` piece, the `J` piece, the `I` piece, the `S` piece, and the `Z` piece.
-
-In this stage, you need to design the pieces and show how they can be rotated counterclockwise at 90 degrees inside a 4x4 grid.
+The original Tetris board design employs a 10x20 grid. Several variants of this design have emerged over the years, but the 10x24 option remains one of the most popular. Your game should allow for any board dimension, but use the 10x20 grid as the default one. The board is basically an MxN matrix, where M is the board width and N is the board height.
 
 ```
-00 01 02 03
-04 05 06 07
-08 09 10 11
-12 13 14 15
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
 ```
-The numbers `00 01 02 03` represent the first items on the four columns of the grid. The numbers below represent the first items of the grid rows.
-```
-00
-04
-08
-12
-```
-So, a 4x4 grid should have four rows and columns — naturally, a 4x4 matrix. Every element in our matrix is filled with a hyphen, `-`, and one space.
-```
-- - - -
-- - - -
-- - - -
-- - - -
-```
-Each piece is designed with the help of four zeros (0). They are our building segments. In the end, we should have the following:
+In the previous stage, we created our pieces in a 4x4 grid. At this stage, you need to simulate their movement on the Tetris board. The pieces should move from the top to the bottom every time a new command is printed. The player can also move the pieces to the left or right. Besides, the pieces can be rotated as they fall. Do not rotate them automatically. Your program should take instruction to rotate the piece or move it to the left or right.
 
-The `I` piece:
+The representation below shows how the unique pieces appear at the top of the game board:
 ```
-- 0 - -
-- 0 - -
-- 0 - -
-- 0 - -
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+
+- - - - 0 0 - - - -
+- - - 0 0 - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+- - - - 0 0 - - - -
+- - - - - 0 0 - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+- - - - 0 - - - - -
+- - - - 0 - - - - -
+- - - - 0 0 - - - -
+- - - - - - - - - -
+
+- - - - - 0 - - - -
+- - - - - 0 - - - -
+- - - - 0 0 - - - -
+- - - - - - - - - -
+
+- - - - 0 0 - - - -
+- - - - 0 0 - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+
+- - - - 0 - - - - -
+- - - - 0 0 - - - -
+- - - - 0 - - - - -
+- - - - - - - - - -
 ```
-The `S` piece:
+
 ```
-- - - -
-- 0 0 -
-0 0 - -
-- - - -
+Integer[][] O = {{4, 14, 15, 5}};
+Integer[][] I = {{4, 14, 24, 34}, {3, 4, 5, 6}};
+Integer[][] S = {{5, 4, 14, 13}, {4, 14, 15, 25}};
+Integer[][] Z = {{4, 5, 15, 16}, {5, 15, 14, 24}};
+Integer[][] L = {{4, 14, 24, 25}, {5, 15, 14, 13}, {4, 5, 15, 25}, {6, 5, 4, 14}};
+Integer[][] J = {{5, 15, 25, 24}, {15, 5, 4, 3}, {5, 4, 14, 24}, {4, 14, 15, 16}};
+Integer[][] T = {{4, 14, 24, 15}, {4, 13, 14, 15}, {5, 15, 25, 14}, {4, 5, 6, 15}};
 ```
-The `Z` piece:
+There are no border restrictions in this stage, so a piece can move through the bottom, left, and right borders:
 ```
-- - - -
-0 0 - -
-- 0 0 -
-- - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - 0 0 - - - -
+- - - - 0 0 - - - -
+
+> down
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - - - - - - -
+- - - - 0 0 - - - -
 ```
-The `L` piece:
+Mind that when you move the piece down, you need to move it down precisely one row in the grid.
 ```
-- 0 - -
-- 0 - -
-- 0 0 -
-- - - -
-```
-The `J` piece:
-```
-- - 0 -
-- - 0 -
-- 0 0 -
-- - - -
-```
-The `O` piece:
-```
-- - - -
-- 0 0 -
-- 0 0 -
-- - - -
-```
-The `T` piece:
-```
-- 0 - -
-0 0 0 -
-- - - -
-- - - -
+- - - - - - - - - -
+- - - - - - - - 0 0
+- - - - - - - - 0 0
+- - - - - - - - - -
+
+> right
+- - - - - - - - - -
+- - - - - - - - - -
+0 - - - - - - - - 0
+0 - - - - - - - - 0
 ```
 
 ---
@@ -85,10 +109,8 @@ The `T` piece:
 ## 🎯 Objectives
 
 In this stage, your program should:
-
-1. Create a 4x4 grid.
-2. Design seven unique pieces: `I`, `S`, `Z`, `L`, `J`, `O`, `T`
-3. Design the rotated states of the unique pieces.
-4. The pieces and their rotated states should be placed inside one list. The unique piece should take the first position in the list. the next positions should be filled with the pieces rotated by 90 degrees counterclockwise.
-5. Rotate the pieces inside the grid. The piece is rotated automatically and should appear in a new grid
-6. Print and rotate the unique pieces in the order they were created. Separate each new grid with one empty line, as shown in the Examples below.
+1. Take the unique pieces from the list.
+2. Move the piece to the left, right, and down.
+3. Rotate the piece inside the game board.
+4. 
+At this stage, your program should deal with the `rotate`, `left`, `right`, `down`, and `exit` commands.

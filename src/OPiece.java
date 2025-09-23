@@ -1,37 +1,34 @@
 public class OPiece implements Piece {
-    private final int[][] states = {{5, 6, 9, 10}};
-    private int currentStateIndex;
+    private final int[][] initialStates = {{4, 14, 15, 5}};
+    private int[] state = getActualState();
+    private final int[] actualState = {4, 14, 15, 5};
 
 
-    @Override
-    public void rotate() {
-        currentStateIndex = (currentStateIndex + 1) % states.length;
+    public void rotate(int col) {
+        for (int i = 0; i < actualState.length; i++) {
+            actualState[i] = actualState[i] + 10;
+        }
+        setState(actualState);
     }
 
     public OPiece() {
-        this.currentStateIndex = 0;
-    }
-
-    public int getStates() {
-        return states.length;
-    }
-
-    public void setCurrentStateIndex(int currentStateIndex) {
-        this.currentStateIndex = currentStateIndex;
-    }
-
-    @Override
-    public char getType() {
-        return 'O';
+        int currentStateIndex = 0;
     }
 
     @Override
     public int[] getShape() {
-        return states[currentStateIndex];
+        return actualState;
     }
 
-    @Override
-    public void reset() {
-        setCurrentStateIndex(0);
+    public int[] getState() {
+        return state;
+    }
+
+    public void setState(int[] state) {
+        this.state = state;
+    }
+
+    public int[] getActualState() {
+        return actualState;
     }
 }
