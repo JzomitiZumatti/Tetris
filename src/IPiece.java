@@ -1,38 +1,48 @@
+import java.util.Arrays;
+
 public class IPiece implements Piece{
-    private final int[][] states = {{1, 5, 9, 13}, {4, 5, 6, 7}, {1, 5, 9, 13}, {4, 5, 6, 7}};
-    private int currentStateIndex;
+    private final int[][] initialStates = {{4, 14, 24, 34}, {3, 4, 5, 6}};
+    private int[] state = getActualState();
+    private final int[] actualState = {4, 14, 24, 34};
+    private boolean pos = true;
 
 
-    @Override
-    public void rotate() {
-        currentStateIndex = (currentStateIndex + 1) % states.length;
+
+    public void rotate(int col) {
+        int[] temp = Arrays.copyOf(actualState, actualState.length);
+        if (pos) {
+            for (int i = 0; i < actualState.length; i++) {
+                actualState[i] = temp[1] + i - 1;
+            }
+            pos = false;
+        } else {
+            for (int i = 0; i < actualState.length; i++) {
+                actualState[i] = temp[1] + (col * (i + 1));
+            }
+            pos = true;
+        }
+        setState(actualState);
     }
 
     public IPiece() {
-        this.currentStateIndex = 0;
-    }
-
-    public int getStates() {
-        return states.length;
-    }
-
-    public void setCurrentStateIndex(int currentStateIndex) {
-        this.currentStateIndex = currentStateIndex;
-    }
-
-    @Override
-    public char getType() {
-        return 'I';
+        int currentStateIndex = 0;
     }
 
     @Override
     public int[] getShape() {
-        return states[currentStateIndex];
+        return actualState;
     }
 
-    @Override
-    public void reset() {
-        setCurrentStateIndex(0);
+    public int[] getState() {
+        return state;
+    }
+
+    public void setState(int[] state) {
+        this.state = state;
+    }
+
+    public int[] getActualState() {
+        return actualState;
     }
 }
 

@@ -1,10 +1,10 @@
 public class JPiece implements Piece {
     private final int[][] states = {{2, 6, 9, 10}, {4, 5, 6, 10}, {1, 2, 5, 9}, {0, 4, 5, 6}};
     private int currentStateIndex;
-
+    private int[] state = getCurrentState(states, currentStateIndex);
 
     @Override
-    public void rotate() {
+    public void rotate(int col) {
         currentStateIndex = (currentStateIndex + 1) % states.length;
     }
 
@@ -12,17 +12,13 @@ public class JPiece implements Piece {
         this.currentStateIndex = 0;
     }
 
-    public int getStates() {
-        return states.length;
+
+    public int[] getState() {
+        return state;
     }
 
-    public void setCurrentStateIndex(int currentStateIndex) {
-        this.currentStateIndex = currentStateIndex;
-    }
-
-    @Override
-    public char getType() {
-        return 'J';
+    public void setState(int[] state) {
+        this.state = state;
     }
 
     @Override
@@ -30,9 +26,10 @@ public class JPiece implements Piece {
         return states[currentStateIndex];
     }
 
-    @Override
-    public void reset() {
-        setCurrentStateIndex(0);
+    private int[] getCurrentState(int[][] states, int currentState) {
+        int[] result = new int[states[currentState].length];
+        System.arraycopy(states[currentState], 0, result, 0, states[currentState].length);
+        return result;
     }
 }
 
